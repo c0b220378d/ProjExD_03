@@ -165,6 +165,7 @@ def main():
                 # ビームが爆弾を撃墜したらどちらも消滅
                 beam = None
                 bomb = None
+                bird.change_img(6, screen)
             
 
         key_lst = pg.key.get_pressed()
