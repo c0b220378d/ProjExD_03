@@ -162,14 +162,14 @@ class Score:
     """
     def __init__(self):
         self.font = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
-        color = (0, 0, 255)
+        self.color = (0, 0, 255)
         self.score = 0
-        self.img = self.font.render(f"スコア：{self.score}", 0, color)
+        self.img = self.font.render(f"スコア：{self.score}", 0, self.color)
         self.rct = self.img.get_rect()
         self.rct.center = (100, HEIGHT-50)
 
     def update(self, screen: pg.Surface):
-        self.img =self.font.render(f"スコア：{self.score}", 0, (0,0,255))
+        self.img =self.font.render(f"スコア：{self.score}", 0, self.color)
         screen.blit(self.img, self.rct.center)
 
 
