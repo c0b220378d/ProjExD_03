@@ -48,6 +48,23 @@ class Bird:
             True, 
             False
         )
+        self.img1 = pg.transform.rotozoom(  # 2倍に拡大
+                pg.image.load(f"ex03/fig/{num}.png"), 
+                0, 
+                2.0)
+        """こうかとんの向き"""
+        self.kk_dct = {
+            (0, 0):self.img1,
+            (-5, 0):self.img1,
+            (-5, -5):pg.transform.rotozoom(self.img1, -45, 1.0),
+            (-5, +5):pg.transform.rotozoom(self.img1, 45, 1.0),
+            (5, 0):self.img,
+            (5, -5):pg.transform.rotozoom(self.img, 45, 1.0),
+            (0, -5):pg.transform.rotozoom(self.img, 90, 1.0),
+            (5, 5):pg.transform.rotozoom(self.img, -45, 1.0),
+            (0, 5):pg.transform.rotozoom(self.img, -90, 1.0)
+        }
+        self.img = self.kk_dct[(5, 0)]
         self.rct = self.img.get_rect()
         self.rct.center = xy
 
@@ -74,6 +91,8 @@ class Bird:
         self.rct.move_ip(sum_mv)
         if check_bound(self.rct) != (True, True):
             self.rct.move_ip(-sum_mv[0], -sum_mv[1])
+        if not (sum_mv[0] == 0 and sum_mv[1] == 0):
+            self.img =self.kk_dct[tuple(sum_mv)]
         screen.blit(self.img, self.rct)
 
 
