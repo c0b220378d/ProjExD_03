@@ -156,6 +156,26 @@ class Bomb:
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
 
+
+class Explosion:
+    """
+    爆弾を爆発させるリスト
+    """
+    def __init__(self):
+        exp_gif1 = pg.image.load(f"ex03/fig/explosion.gif")
+        exp_gif2 = pg.transform.flip(exp_gif1, True, True)
+        self.gif_list =[exp_gif1, exp_gif2]
+        self.rct = Bomb.rct.center
+        self.life = 10
+
+    def update(self, screen: pg.Surface):
+        self.life -= 1
+        if self.life % 2 == 1:
+            screen.blit(self.gif_list[0], self.rct)
+        else:
+            screen.blit(self.gif_list[1], self.rct)
+
+
 class Score:
     """
     スコアを表示するクラス
@@ -181,6 +201,8 @@ def main():
     score = Score()
     bombs = [Bomb() for _ in range(NUM_OF_BOMBS)]
     beam = None
+    list_exp = []
+    explosion = None
 
     clock = pg.time.Clock()
     tmr = 0
@@ -209,6 +231,9 @@ def main():
                     score.score += 1
                     beam = None
                     bombs[i] = None
+                    explosion =Explosion()
+                    if explosion.life > 0:
+                        list_exp.append(explosion)
                     bird.change_img(6, screen)
                     pg.display.update()
         bombs = [bomb for bomb in bombs if bomb is not None]            
@@ -220,6 +245,8 @@ def main():
         if beam is not None:
             beam.update(screen)
         score.update(screen)
+        if explosion is not None:
+            explosion.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
